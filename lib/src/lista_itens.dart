@@ -65,17 +65,23 @@ class ListaItens extends StatelessWidget {
       itemCount: listaDeItens.length,
       itemBuilder: (context, index) {
         var item = listaDeItens[index];
-        return ListTile(
-          leading: Icon(item.icone),
-          title: Text(item.categoria),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(item.descricao),
-              Text("Data: ${item.data.day}/${item.data.month}/${item.data.year}"), // Exibindo a data
-            ],
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 2.0), // Adicionando espaçamento
+          child: Container(
+            color: Colors.white, // Cor de fundo do ListTile
+            child: ListTile(
+              leading: Icon(item.icone),
+              title: Text(item.categoria),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(item.descricao),
+                  Text("Data: ${item.data.day}/${item.data.month}/${item.data.year}"), // Exibindo a data
+                ],
+              ),
+              trailing: Text(item.valor),
+            ),
           ),
-          trailing: Text(item.valor),
         );
       },
     );

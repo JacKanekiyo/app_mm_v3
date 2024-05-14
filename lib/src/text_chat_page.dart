@@ -1,4 +1,6 @@
+import 'package:app_mm_v3/src/add.dart';
 import 'package:app_mm_v3/views/home_page.dart';
+import 'package:app_mm_v3/views/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
@@ -79,13 +81,13 @@ class _TextChatPageState extends State<TextChatPage> {
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
-                    // Implementar ação para lançamento de despesa ou receita
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddTransactionPage(),));
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.account_circle),
                   onPressed: () {
-                    // Implementar a navegação para o perfil do usuário
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage(fullName: 'EDUARDO FONSECA', nickname: 'DUNHA', email: 'edu@teste.com', avatarUrl: 'https://docservice.com.br/assets/img/PrintSafe/icon%20printsafe%203.svg'),));
                   },
                 ),
               ],

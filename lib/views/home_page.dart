@@ -1,6 +1,7 @@
 import 'package:app_mm_v3/src/add.dart';
 import 'package:app_mm_v3/src/app_widget.dart';
 import 'package:app_mm_v3/src/lista_itens.dart';
+import 'package:app_mm_v3/views/user_page.dart';
 import 'package:flutter/material.dart';
 
 
@@ -22,55 +23,66 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 4,
-                  child: Card(
-                    elevation: 15,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.12,
-                      color: Colors.white,
-                      child: Center(
-                        child: Text('TOTAL: R\$ -678,00'),
+            padding: const EdgeInsets.all(16),
+            child: Card(
+              elevation: 20,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.2, // Ajuste a altura conforme necessário
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'TOTAL: R\$ 2580,00',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(width: 8.0),
-                Expanded(
-                  flex: 4,
-                  child: Card(
-                    elevation: 15,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
+                    SizedBox(height: 8.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.arrow_drop_up,
+                              color: Colors.green,
+                              size: 40,
+                            ),
+                            Text(
+                              'RECEITA: R\$ 1890,00',
+                              style: TextStyle(
+                                color: Colors.green,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.red,
+                              size: 40,
+                            ),
+                            Text(
+                              'DESPESA: R\$ -678,00',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.12,
-                      color: Colors.white,
-                      child: Center(
-                        child: Text('TOTAL: R\$ 1890,00'),
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.1,
-            color: Colors.grey,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('TOTAL: R\$ 2580,00'),
-              ],
-            ),
-          ),
+
           Expanded(
             flex: 11,
             child: Container(
@@ -99,7 +111,7 @@ class HomePage extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.account_circle),
                   onPressed: () {
-                    // Implementar a navegação para o perfil do usuário
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage(fullName: 'EDUARDO FONSECA', nickname: 'DUNHA', email: 'edu@teste.com', avatarUrl: 'https://docservice.com.br/assets/img/PrintSafe/icon%20printsafe%203.svg'),));
                   },
                 ),
               ],
