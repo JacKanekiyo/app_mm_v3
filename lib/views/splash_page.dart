@@ -67,7 +67,7 @@ class SplashPageState extends State<SplashPage> {
                       height: 50, // Altura desejada para os botões
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const SignupPage(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage(),));
                         },
                         child: const Text('Cadastro', style: TextStyle(fontSize: 20)),
                       ),

@@ -10,42 +10,42 @@ class ListaItens extends StatelessWidget {
     // Lista de itens
     List<Item> listaDeItens = [
       Item(
-        icone: Icons.category,
+        icone: Icons.health_and_safety,
         categoria: 'Categoria 1',
         descricao: 'Descrição do item 1',
         valor: 'R\$ 10,00',
         data: DateTime.now(), // Adicionando a data atual
       ),
       Item(
-        icone: Icons.category,
+        icone: Icons.car_crash,
         categoria: 'Categoria 2',
         descricao: 'Descrição do item 2',
         valor: 'R\$ 20,00',
         data: DateTime.now(), // Adicionando a data atual
       ),
       Item(
-        icone: Icons.category,
+        icone: Icons.school,
         categoria: 'Categoria 3',
         descricao: 'Descrição do item 3',
         valor: 'R\$ 30,00',
         data: DateTime.now(), // Adicionando a data atual
       ),
       Item(
-        icone: Icons.category,
+        icone: Icons.work,
         categoria: 'Categoria 4',
         descricao: 'Descrição do item 4',
         valor: 'R\$ 40,00',
         data: DateTime.now(), // Adicionando a data atual
       ),
       Item(
-        icone: Icons.category,
+        icone: Icons.sos,
         categoria: 'Categoria 5',
         descricao: 'Descrição do item 5',
         valor: 'R\$ 50,00',
         data: DateTime.now(), // Adicionando a data atual
       ),
       Item(
-        icone: Icons.category,
+        icone: Icons.food_bank,
         categoria: 'Categoria 6',
         descricao: 'Descrição do item 6',
         valor: 'R\$ 60,00',

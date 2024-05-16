@@ -1,8 +1,44 @@
 import 'package:app_mm_v3/auth/sign.dart';
+import 'package:app_mm_v3/views/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+  
+  final auth = FirebaseAuth.instance;
+  final db = FirebaseFirestore.instance;
+
+  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
+
+
+  Future<bool> _criarUsuario() async {
+
+    bool _create = false;
+
+    try{
+      await auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text)
+      .then((usuariocriado) {
+        db.collection('users')
+        .doc(usuariocriado.user!.uid)
+        .set({
+          "username" : usernameController.text,
+          "email": emailController.text,
+          "uid": usuariocriado.user!.uid
+        });
+        _create = true;
+      });
+    } on FirebaseAuthException catch (e) {
+      print("Erro: "+e.code);
+    }
+
+    return _create;
+  }
+    
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +83,13 @@ class SignupPage extends StatelessWidget {
 
 
                 ],
-              ),
+              ), 
               Column(
                 children: <Widget>[
-                  inputFile(label: "Username"),
-                  inputFile(label: "Email"),
-                  inputFile(label: "Password", obscureText: true),
-                  inputFile(label: "Confirm Password ", obscureText: true),
+                  inputFile(label: "Username", textController: usernameController),
+                  inputFile(label: "Email", textController: emailController),
+                  inputFile(label: "Password", obscureText: true, textController: passwordController),
+                  inputFile(label: "Confirm Password ", obscureText: true, textController: confirmPasswordController),
                 ],
               ),
               Container(
@@ -75,7 +111,11 @@ class SignupPage extends StatelessWidget {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: () {},
+                  onPressed: () async {
+                    if(passwordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty && (passwordController.text.compareTo(confirmPasswordController.text))==0){
+                      await _criarUsuario() ? Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),)) : Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage(),));
+                    }
+                  },
                   color: Color(0xFF02553F),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -101,9 +141,9 @@ class SignupPage extends StatelessWidget {
                 children: <Widget>[
                   const Text("Already have an account?"),
                   GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SignPage(),));
-                      },
+                      onTap: () async {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignPage(),));
+                  },
                     child: const Text(" Login", style:TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 18
@@ -131,8 +171,7 @@ class SignupPage extends StatelessWidget {
 
 
 
-// we will be creating a widget for text field
-Widget inputFile({label, obscureText = false})
+Widget inputFile({label, obscureText = false, required textController})
 {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,18 +189,19 @@ Widget inputFile({label, obscureText = false})
         height: 5,
       ),
       TextField(
+        controller: textController,
         obscureText: obscureText,
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical: 0,
+        decoration: const InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 0,
                 horizontal: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                  color: Colors.grey.shade400
+                  color: Color.fromARGB(255, 189, 189, 189)
               ),
 
             ),
             border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade400)
+                borderSide: BorderSide(color: Color.fromARGB(255, 189, 189, 189))
             )
         ),
       ),

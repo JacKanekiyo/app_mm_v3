@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "277756876145",
+    "project_id": "minds-money",
+    "storage_bucket": "minds-money.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277756876145:android:93322e9b79d900d86ed2d0",
+        "android_client_info": {
+          "package_name": "com.example.app_mm_v3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2UwQMFNz_CYsnyoPzSP-zFi09Rg5N_34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
