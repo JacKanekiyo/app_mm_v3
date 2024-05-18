@@ -70,7 +70,8 @@ class _SignPageState extends State<SignPage> {
                     children: <Widget>[
                       Text(
                         "Login",
-                        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 20),
                       Text(
@@ -96,7 +97,8 @@ class _SignPageState extends State<SignPage> {
                     padding: EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       children: <Widget>[
-                        inputFile(label: "Email", textController: emailController),
+                        inputFile(
+                            label: "Email", textController: emailController),
                         inputFile(
                           label: "Senha",
                           obscureText: true,
@@ -148,7 +150,8 @@ class _SignPageState extends State<SignPage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SignupPage()),
+                            MaterialPageRoute(
+                                builder: (context) => SignupPage()),
                           );
                         },
                         child: Text(
