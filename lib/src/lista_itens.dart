@@ -1,87 +1,58 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'item.dart';
-
 class ListaItens extends StatelessWidget {
-  const ListaItens({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    // Lista de itens
-    List<Item> listaDeItens = [
-      Item(
-        icone: Icons.health_and_safety,
-        categoria: 'Categoria 1',
-        descricao: 'Descrição do item 1',
-        valor: 'R\$ 10,00',
-        data: DateTime.now(), // Adicionando a data atual
-      ),
-      Item(
-        icone: Icons.car_crash,
-        categoria: 'Categoria 2',
-        descricao: 'Descrição do item 2',
-        valor: 'R\$ 20,00',
-        data: DateTime.now(), // Adicionando a data atual
-      ),
-      Item(
-        icone: Icons.school,
-        categoria: 'Categoria 3',
-        descricao: 'Descrição do item 3',
-        valor: 'R\$ 30,00',
-        data: DateTime.now(), // Adicionando a data atual
-      ),
-      Item(
-        icone: Icons.work,
-        categoria: 'Categoria 4',
-        descricao: 'Descrição do item 4',
-        valor: 'R\$ 40,00',
-        data: DateTime.now(), // Adicionando a data atual
-      ),
-      Item(
-        icone: Icons.sos,
-        categoria: 'Categoria 5',
-        descricao: 'Descrição do item 5',
-        valor: 'R\$ 50,00',
-        data: DateTime.now(), // Adicionando a data atual
-      ),
-      Item(
-        icone: Icons.food_bank,
-        categoria: 'Categoria 6',
-        descricao: 'Descrição do item 6',
-        valor: 'R\$ 60,00',
-        data: DateTime.now(), // Adicionando a data atual
-      ),
-      Item(
-        icone: Icons.category,
-        categoria: 'Categoria 7',
-        descricao: 'Descrição do item 7',
-        valor: 'R\$ 70,00',
-        data: DateTime.now(), // Adicionando a data atual
-      ),
-    ];
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, authSnapshot) {
+        if (authSnapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (authSnapshot.hasError) {
+          return Center(child: Text('Erro: ${authSnapshot.error}'));
+        }
 
-    // Construindo a lista de itens
-    return ListView.builder(
-      itemCount: listaDeItens.length,
-      itemBuilder: (context, index) {
-        var item = listaDeItens[index];
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 2.0), // Adicionando espaçamento
-          child: Container(
-            color: Colors.white, // Cor de fundo do ListTile
-            child: ListTile(
-              leading: Icon(item.icone),
-              title: Text(item.categoria),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(item.descricao),
-                  Text("Data: ${item.data.day}/${item.data.month}/${item.data.year}"), // Exibindo a data
-                ],
-              ),
-              trailing: Text(item.valor),
-            ),
-          ),
+        final User? user = authSnapshot.data;
+        if (user == null) {
+          return Center(child: Text('Nenhum usuário autenticado.'));
+        }
+
+        return StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('lancamentos').where('uid', isEqualTo: user.uid).snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text('Erro: ${snapshot.error}'));
+            }
+            if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot document = snapshot.data!.docs[index];
+                    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                    IconData icon = data['tipo'] == 'Receita' ? Icons.arrow_drop_up : Icons.arrow_drop_down;
+                    Color iconColor = data['tipo'] == 'Receita' ? Colors.green : Colors.red;
+                    double valor = data['valor'].toDouble() * (data['tipo'] == 'Receita' ? 1 : -1); // Ajusta o sinal do valor para negativo em caso de despesa
+                    return Card(
+                      child: ListTile(
+                        leading: Icon(icon, color: iconColor),
+                        title: Text(data['descricao'] ?? ''),
+                        subtitle: Text("Categoria: ${data['categoria'] ?? ''}"),
+                        trailing: Text('R\$ ${valor.toStringAsFixed(2)}'),
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
+            return Center(child: Text('Nenhum lançamento encontrado.'));
+          },
         );
       },
     );

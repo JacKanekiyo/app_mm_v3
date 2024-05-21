@@ -6,6 +6,7 @@ class Transaction {
   final String valor;
   final DateTime data;
   final bool isIncome;
+  final String tipo; // Adicionando o campo tipo
 
   Transaction({
     required this.category,
@@ -13,6 +14,7 @@ class Transaction {
     required this.valor,
     required this.data,
     required this.isIncome,
+    required this.tipo, // Atualizando o construtor
   });
 }
 
@@ -22,6 +24,7 @@ class Item {
   final String descricao;
   final String valor;
   final DateTime data;
+  final String tipo; // Adicionando o campo tipo
 
   Item({
     required this.icone,
@@ -29,6 +32,7 @@ class Item {
     required this.descricao,
     required this.valor,
     required this.data,
+    required this.tipo, // Atualizando o construtor
   });
 
   // Novo construtor que aceita uma transação e converte para Item
@@ -37,5 +41,6 @@ class Item {
         categoria = transaction.category,
         descricao = transaction.descricao,
         valor = transaction.valor,
-        data = transaction.data;
+        data = transaction.data,
+        tipo = transaction.tipo; // Adicionando a atribuição do tipo
 }
