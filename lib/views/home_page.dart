@@ -11,7 +11,22 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MINDS & MONEY', textAlign: TextAlign.center),
+        titleSpacing: 0, // Remove o espaçamento do título
+        automaticallyImplyLeading: false, // Remove o botão de voltar padrão
+        title: Row(
+          children: [
+            SizedBox(width: 80), // Adiciona um espaçamento à esquerda
+            Image.asset(
+              'assets/images/logo.png',
+              fit: BoxFit.contain,
+              height: AppBar().preferredSize.height *
+                  0.6, // Diminui a altura da imagem
+            ),
+          ],
+        ),
+        backgroundColor: Colors
+            .transparent, // Torna o AppBar transparente para mostrar a imagem
+        elevation: 0, // Remove a sombra do AppBar
       ),
       body: Column(
         children: [
@@ -37,8 +52,12 @@ class HomePage extends StatelessWidget {
               }
 
               return StreamBuilder<DocumentSnapshot>(
-                stream: FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots(),
-                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> userSnapshot) {
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user.uid)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> userSnapshot) {
                   if (userSnapshot.connectionState == ConnectionState.waiting) {
                     return Center(
                       child: CircularProgressIndicator(),
@@ -51,14 +70,26 @@ class HomePage extends StatelessWidget {
                   }
 
                   if (userSnapshot.hasData && userSnapshot.data!.exists) {
-                    final userData = userSnapshot.data!.data() as Map<String, dynamic>;
+                    final userData =
+                        userSnapshot.data!.data() as Map<String, dynamic>;
                     final userName = userData['username'];
 
                     return Container(
                       height: MediaQuery.of(context).size.height * 0.1,
-                      color: Colors.blue,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
                       child: Center(
-                        child: Text('Bem vindo! $userName!', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                        child: Text('Bem vindo, $userName!',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            )),
                       ),
                     );
                   }
@@ -93,8 +124,12 @@ class HomePage extends StatelessWidget {
               }
 
               return StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('lancamentos').where('uid', isEqualTo: user.uid).snapshots(),
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                stream: FirebaseFirestore.instance
+                    .collection('lancamentos')
+                    .where('uid', isEqualTo: user.uid)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
                       child: CircularProgressIndicator(),
@@ -111,7 +146,8 @@ class HomePage extends StatelessWidget {
                     double totalDespesa = 0;
 
                     for (DocumentSnapshot document in snapshot.data!.docs) {
-                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                      Map<String, dynamic> data =
+                          document.data() as Map<String, dynamic>;
                       if (data['tipo'] == 'Receita') {
                         totalReceita += data['valor'].toDouble();
                       } else {
@@ -138,12 +174,15 @@ class HomePage extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: totalCartao >= 0 ? Colors.black : Colors.red,
+                                  color: totalCartao >= 0
+                                      ? Colors.black
+                                      : Colors.red,
                                 ),
                               ),
                               SizedBox(height: 8.0),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Column(
                                     children: [
@@ -192,30 +231,41 @@ class HomePage extends StatelessWidget {
           ),
 
           // Usando o widget ListaItens do arquivo lista_itens.dart
-          ListaItens(), 
+          ListaItens(),
 
           Container(
             height: MediaQuery.of(context).size.height * 0.07,
-            color: Colors.orange,
+            color: Color(0xFF3F8782),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
                   icon: Icon(Icons.chat),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AppWidget(),));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AppWidget(),
+                        ));
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddTransactionPage(),));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddTransactionPage(),
+                        ));
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.account_circle),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage(fullName: 'EDUARDO FONSECA', nickname: 'DUNHA', email: 'edu@teste.com', avatarUrl: 'https://docservice.com.br/assets/img/PrintSafe/icon%20printsafe%203.svg'),));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserProfilePage()));
                   },
                 ),
               ],

@@ -25,15 +25,6 @@ class SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'MINDS & MONEY',
-          style: TextStyle(
-            backgroundColor: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -41,90 +32,103 @@ class SplashPageState extends State<SplashPage> {
             'assets/images/fundo.jpg',
             fit: BoxFit.cover,
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 0.0), // Ajuste o valor para mover mais ou menos
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(200),
-                child: Image.asset('assets/images/home.png'),
+          Positioned(
+            top: 20, // Ajuste a posição vertical conforme necessário
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Image.asset(
+                'assets/images/logo.png',
+                height: 100, // Ajuste a altura da logo conforme necessário
               ),
             ),
           ),
-          AnimatedOpacity(
-            opacity: _isVisible ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 500),
-            child: Container(
-              color: Colors.black.withOpacity(0.0),
-              child: Center(
+          Positioned(
+            bottom: 40, // Ajuste a posição vertical conforme necessário
+            left: 0,
+            right: 0,
+            child: Center(
+              child: AnimatedOpacity(
+                opacity: _isVisible ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 500),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SizedBox(
-                      width: 200, // Largura desejada para os botões
-                      height: 50, // Altura desejada para os botões
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SignPage(),
-                              ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(
-                              0xFF734B9B), // Cor de fundo do botão "Login"
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                30), // Borda do botão "Login"
-                          ),
-                        ),
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white, // Cor do texto "Login"
-                          ),
-                        ),
-                      ),
+                    Image.asset(
+                      'assets/images/home.png',
+                      fit: BoxFit.contain,
                     ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: 200, // Largura desejada para os botões
-                      height: 50, // Altura desejada para os botões
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignupPage(),
-                              ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(
-                              0xFF3F8782), // Cor de fundo do botão "Cadastro"
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                30), // Borda do botão "Cadastro"
+                    const SizedBox(
+                        height: 20), // Espaço entre a imagem e os botões
+                    CustomButton(
+                      text: "Login",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignPage(),
                           ),
-                        ),
-                        child: const Text(
-                          'Cadastro',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white, // Cor do texto "Cadastro"
-                          ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
-                    const SizedBox(height: 40)
+                    const SizedBox(height: 10), // Espaço entre os botões
+                    CustomButton(
+                      text: "Cadastro",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignupPage(),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+
+  const CustomButton({required this.text, required this.onPressed, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 200, // Largura desejada para os botões
+      height: 50, // Altura desejada para os botões
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        gradient: LinearGradient(
+          colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }

@@ -192,13 +192,7 @@ class _TextChatPageState extends State<TextChatPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => UserProfilePage(
-                                  fullName: 'EDUARDO FONSECA',
-                                  nickname: 'DUNHA',
-                                  email: 'edu@teste.com',
-                                  avatarUrl:
-                                      'https://docservice.com.br/assets/img/PrintSafe/icon%20printsafe%203.svg'),
-                            ));
+                                builder: (context) => UserProfilePage()));
                       },
                     ),
                   ],
