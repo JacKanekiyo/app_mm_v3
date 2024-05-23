@@ -1,83 +1,105 @@
-import 'package:app_mm_v3/src/add.dart';
-import 'package:app_mm_v3/src/app_widget.dart';
-import 'package:app_mm_v3/views/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserProfilePage extends StatelessWidget {
-  // Dados do usuário
-  final String fullName;
-  final String nickname;
-  final String email;
-  final String avatarUrl;
-
-  const UserProfilePage({
-    Key? key,
-    required this.fullName,
-    required this.nickname,
-    required this.email,
-    required this.avatarUrl,
-  }) : super(key: key);
+  const UserProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final User? user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Perfil do Usuário'),
+        title: null, // Removendo o título da barra de navegação
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(avatarUrl),
-              radius: 50,
-            ),
-            SizedBox(height: 20),
-            Text(
-              fullName,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              nickname,
-              style: TextStyle(fontSize: 18),
-            ),
-            Text(
-              email,
-              style: TextStyle(fontSize: 18),
-            ),
-            Spacer(),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.07,
-              color: Colors.orange,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.chat),
-                    onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AppWidget(),));
-                    },
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: user != null
+            ? FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .snapshots()
+            : null,
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Erro: ${snapshot.error}'),
+            );
+          }
+
+          if (snapshot.hasData && snapshot.data!.exists) {
+            final userData = snapshot.data!.data() as Map<String, dynamic>;
+            final username = userData['username'] ?? '';
+            final email = userData['email'] ?? '';
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/logo.png',
+                      ),
+                      fit: BoxFit.contain, // Ajuste aqui para evitar o zoom
+                    ),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddTransactionPage(),));
-                    },
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height *
+                      0.25, // Altura ajustada para 25% da tela
+                ),
+                SizedBox(height: 20),
+                Text(
+                  username,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  email,
+                  style: TextStyle(fontSize: 18),
+                ),
+                Spacer(),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  color: Color(0xFF3F8782),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.chat),
+                        onPressed: () {
+                          // Implemente a ação do botão conforme necessário
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          // Implemente a ação do botão conforme necessário
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.home),
+                        onPressed: () {
+                          // Implemente a ação do botão conforme necessário
+                        },
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    icon: Icon(Icons.home),
-                    onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+                ),
+              ],
+            );
+          }
+
+          return Center(
+            child: Text('Dados do usuário não encontrados.'),
+          );
+        },
       ),
     );
   }
 }
-

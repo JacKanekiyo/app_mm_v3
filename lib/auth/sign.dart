@@ -55,109 +55,113 @@ class _SignPageState extends State<SignPage> {
             color: Colors.black,
           ),
         ),
+        title: Padding(
+          padding: const EdgeInsets.only(
+              top: 20), // Ajuste para descer a imagem e o texto
+          child: Column(
+            children: [
+              Image.asset(
+                'assets/images/logo.png',
+                height: 40,
+              ),
+              SizedBox(height: 10),
+            ],
+          ),
+        ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 40, right: 40, bottom: 20),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Text(
-                      "Login",
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      "Acesse sua conta",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey[700],
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 100),
-                  height: 200,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/cadeado.png"),
-                      fit: BoxFit.fitHeight,
-                    ),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(
+                    "Login",
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   ),
-                ),
-                Column(
-                  children: <Widget>[
-                    inputFile(label: "Email", textController: emailController),
-                    SizedBox(height: 10),
-                    inputFile(
-                      label: "Senha",
-                      obscureText: true,
-                      textController: passwordController,
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 3, left: 3),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border(
-                      bottom: BorderSide(color: Colors.black),
-                      top: BorderSide(color: Colors.black),
-                      left: BorderSide(color: Colors.black),
-                      right: BorderSide(color: Colors.black),
-                    ),
-                  ),
-                  child: MaterialButton(
-                    minWidth: double.infinity,
-                    height: 60,
-                    onPressed: () async {
-                      await _signInWithEmailAndPassword(context);
-                    },
-                    color: Color(0xFF02553F),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Text(
-                      "Login",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                        color: Colors.white,
+                  SizedBox(height: 60), // Adicionado espaço extra
+                  Container(
+                    height: 210, // Ajuste a altura conforme necessário
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/cadeado.png"),
+                        fit: BoxFit.fitHeight,
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("Não tem uma conta?"),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignupPage()),
-                        );
+                  SizedBox(height: 50), // Adicionado espaço extra
+                  Column(
+                    children: <Widget>[
+                      inputFile(
+                          label: "Email", textController: emailController),
+                      SizedBox(height: 10),
+                      inputFile(
+                        label: "Senha",
+                        obscureText: true,
+                        textController: passwordController,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20), // Adicionado espaço extra
+                  Container(
+                    width: 200, // Defina a largura desejada aqui
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                    child: MaterialButton(
+                      height: 50, // Defina a altura desejada aqui
+                      onPressed: () async {
+                        await _signInWithEmailAndPassword(context);
                       },
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                       child: Text(
-                        " Cadastre-se",
+                        "Login",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
+                          color: Colors.white,
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ],
-            ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Não tem uma conta?"),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignupPage()),
+                          );
+                        },
+                        child: Text(
+                          " Cadastre-se",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -166,7 +170,10 @@ class _SignPageState extends State<SignPage> {
 }
 
 // Widget para campo de texto
-Widget inputFile({label, obscureText = false, required textController}) {
+Widget inputFile(
+    {required String label,
+    bool obscureText = false,
+    required TextEditingController textController}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -181,16 +188,25 @@ Widget inputFile({label, obscureText = false, required textController}) {
       SizedBox(
         height: 5,
       ),
-      TextField(
-        controller: textController,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey.shade400),
-          ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey.shade400),
+      Container(
+        width: 300, // Defina a largura desejada aqui
+        child: TextField(
+          controller: textController,
+          obscureText: obscureText,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30), // Bordas arredondadas
+              borderSide: BorderSide(color: Colors.grey.shade400),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30), // Bordas arredondadas
+              borderSide: BorderSide(color: Colors.grey.shade600),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30), // Bordas arredondadas
+              borderSide: BorderSide(color: Colors.grey.shade400),
+            ),
           ),
         ),
       ),

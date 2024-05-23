@@ -221,12 +221,7 @@ class _TextChatPageState extends State<TextChatPage> {
                         IconButton(
                           icon: Icon(Icons.account_circle, color: Colors.white),
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage(
-                              fullName: 'EDUARDO FONSECA',
-                              nickname: 'DUNHA',
-                              email: 'edu@teste.com',
-                              avatarUrl: 'https://docservice.com.br/assets/img/PrintSafe/icon%20printsafe%203.svg',
-                            )));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage()));
                           },
                         ),
                       ],

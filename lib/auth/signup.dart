@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatelessWidget {
-  
   final auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
 
@@ -14,31 +13,27 @@ class SignupPage extends StatelessWidget {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-
-
   Future<bool> _criarUsuario() async {
-
     bool _create = false;
 
-    try{
-      await auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text)
-      .then((usuariocriado) {
-        db.collection('users')
-        .doc(usuariocriado.user!.uid)
-        .set({
-          "username" : usernameController.text,
+    try {
+      await auth
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text)
+          .then((usuariocriado) {
+        db.collection('users').doc(usuariocriado.user!.uid).set({
+          "username": usernameController.text,
           "email": emailController.text,
           "uid": usuariocriado.user!.uid
         });
         _create = true;
       });
     } on FirebaseAuthException catch (e) {
-      print("Erro: "+e.code);
+      print("Erro: " + e.code);
     }
 
     return _create;
   }
-    
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +47,15 @@ class SignupPage extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios,
+          icon: const Icon(
+            Icons.arrow_back_ios,
             size: 20,
-            color: Colors.black,),
-
-
+            color: Colors.black,
+          ),
+        ),
+        title: Image.asset(
+          'assets/images/logo.png',
+          height: 40,
         ),
       ),
       body: SingleChildScrollView(
@@ -69,143 +68,148 @@ class SignupPage extends StatelessWidget {
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  const Text("Sign up",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-
-                  ),),
-                  const SizedBox(height: 20,),
-                  Text("Crie sua conta, é gratuito! ",
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    "Cadastre-se",
                     style: TextStyle(
-                        fontSize: 15,
-                        color:Colors.grey[700]),)
-
-
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Crie sua conta, é gratuito!",
+                    style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+                  ),
                 ],
-              ), 
+              ),
               Column(
                 children: <Widget>[
-                  inputFile(label: "Username", textController: usernameController),
+                  inputFile(label: "Nome", textController: usernameController),
                   inputFile(label: "Email", textController: emailController),
-                  inputFile(label: "Password", obscureText: true, textController: passwordController),
-                  inputFile(label: "Confirm Password ", obscureText: true, textController: confirmPasswordController),
+                  inputFile(
+                      label: "Senha",
+                      obscureText: true,
+                      textController: passwordController),
+                  inputFile(
+                      label: "Confirme sua senha",
+                      obscureText: true,
+                      textController: confirmPasswordController),
                 ],
               ),
               Container(
-                padding: const EdgeInsets.only(top: 3, left: 3),
-                decoration:
-                BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    border: const Border(
-                      bottom: BorderSide(color: Colors.black),
-                      top: BorderSide(color: Colors.black),
-                      left: BorderSide(color: Colors.black),
-                      right: BorderSide(color: Colors.black),
-
-
-
-                    )
-
+                width: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
                 ),
                 child: MaterialButton(
-                  minWidth: double.infinity,
-                  height: 60,
+                  height: 50,
                   onPressed: () async {
-                    if(passwordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty && (passwordController.text.compareTo(confirmPasswordController.text))==0){
-                      await _criarUsuario() ? Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),)) : Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage(),));
+                    if (passwordController.text.isNotEmpty &&
+                        confirmPasswordController.text.isNotEmpty &&
+                        (passwordController.text
+                                .compareTo(confirmPasswordController.text)) ==
+                            0) {
+                      await _criarUsuario()
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                            )
+                          : Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignupPage(),
+                              ),
+                            );
                     }
                   },
-                  color: Color(0xFF02553F),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-
+                    borderRadius: BorderRadius.circular(30),
                   ),
                   child: const Text(
-                    "Sign up", style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                    color: Colors.white,
-
+                    "Cadastrar",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
                   ),
-                  ),
-
                 ),
-
-
-
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text("Already have an account?"),
+                  const Text("já possui uma conta?"),
                   GestureDetector(
-                      onTap: () async {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignPage(),));
-                  },
-                    child: const Text(" Login", style:TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18
+                    onTap: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignPage(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      " Login",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                    ),
                   ),
-                  ),
-                  ),
-                  
                 ],
               )
-
-
-
             ],
-
           ),
-
-
         ),
-
       ),
-
     );
   }
-}
 
-
-
-Widget inputFile({label, obscureText = false, required textController})
-{
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
-            color:Colors.black87
+  Widget inputFile({label, obscureText = false, required textController}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: const TextStyle(
+              fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
         ),
-
-      ),
-      const SizedBox(
-        height: 5,
-      ),
-      TextField(
-        controller: textController,
-        obscureText: obscureText,
-        decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0,
-                horizontal: 10),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Color.fromARGB(255, 189, 189, 189)
+        const SizedBox(
+          height: 5,
+        ),
+        TextField(
+          controller: textController,
+          obscureText: obscureText,
+          decoration: const InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                borderSide: BorderSide(
+                  color: Color.fromARGB(255, 189, 189, 189),
+                ),
               ),
-
-            ),
-            border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color.fromARGB(255, 189, 189, 189))
-            )
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                borderSide: BorderSide(
+                  color: Color.fromARGB(255, 189, 189, 189),
+                ),
+              )),
         ),
-      ),
-      const SizedBox(height: 10,)
-    ],
-  );
+        const SizedBox(
+          height: 10,
+        )
+      ],
+    );
+  }
 }
