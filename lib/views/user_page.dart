@@ -72,6 +72,7 @@ class UserProfilePage extends StatelessWidget {
 
                   return Column(
                     children: [
+<<<<<<< HEAD
                       const Spacer(
                           flex:
                               2), // Ajusta a altura para mover os elementos um pouco para cima
@@ -88,6 +89,27 @@ class UserProfilePage extends StatelessWidget {
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
+=======
+                      IconButton(
+                        icon: Icon(Icons.chat),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const AppWidget(),
+                              ));
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddTransactionPage(),
+                              ));
+                        },
+>>>>>>> fdaafb8abd62bd3af78e54b6cef18fd9109eb3d3
                       ),
                       Text(
                         email,
@@ -97,7 +119,14 @@ class UserProfilePage extends StatelessWidget {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
+<<<<<<< HEAD
                           // Implemente a ação de editar perfil
+=======
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+>>>>>>> fdaafb8abd62bd3af78e54b6cef18fd9109eb3d3
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,

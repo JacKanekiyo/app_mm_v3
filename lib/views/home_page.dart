@@ -13,22 +13,24 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        titleSpacing: 0, // Remove o espaçamento do título
-        automaticallyImplyLeading: false, // Remove o botão de voltar padrão
+        titleSpacing: 0,
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
+<<<<<<< HEAD
             const SizedBox(width: 80), // Adiciona um espaçamento à esquerda
+=======
+            SizedBox(width: 80),
+>>>>>>> fdaafb8abd62bd3af78e54b6cef18fd9109eb3d3
             Image.asset(
               'assets/images/logo.png',
               fit: BoxFit.contain,
-              height: AppBar().preferredSize.height *
-                  0.6, // Diminui a altura da imagem
+              height: AppBar().preferredSize.height * 0.6,
             ),
           ],
         ),
-        backgroundColor: Colors
-            .transparent, // Torna o AppBar transparente para mostrar a imagem
-        elevation: 0, // Remove a sombra do AppBar
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Column(
         children: [
@@ -103,7 +105,6 @@ class HomePage extends StatelessWidget {
               );
             },
           ),
-
           StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (BuildContext context, AsyncSnapshot<User?> authSnapshot) {
@@ -231,10 +232,8 @@ class HomePage extends StatelessWidget {
               );
             },
           ),
-
           // Usando o widget ListaItens do arquivo lista_itens.dart
           ListaItens(),
-
           Container(
             height: MediaQuery.of(context).size.height * 0.07,
             color: const Color(0xFF3F8782),
