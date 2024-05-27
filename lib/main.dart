@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Certifica-se de que o Flutter está inicializado
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Certifica-se de que o Flutter está inicializado
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -13,9 +14,12 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: SplashPage(),
     );
   }

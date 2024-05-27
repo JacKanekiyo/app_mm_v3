@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignPage extends StatefulWidget {
-  const SignPage({Key? key}) : super(key: key);
+  const SignPage({super.key});
 
   @override
   _SignPageState createState() => _SignPageState();
@@ -49,7 +49,7 @@ class _SignPageState extends State<SignPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             size: 20,
             color: Colors.black,
@@ -64,7 +64,7 @@ class _SignPageState extends State<SignPage> {
                 'assets/images/logo.png',
                 height: 40,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
             ],
           ),
         ),
@@ -79,26 +79,26 @@ class _SignPageState extends State<SignPage> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Text(
+                  const Text(
                     "Login",
                     style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 60), // Adicionado espaço extra
+                  const SizedBox(height: 60), // Adicionado espaço extra
                   Container(
                     height: 210, // Ajuste a altura conforme necessário
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage("assets/images/cadeado.png"),
                         fit: BoxFit.fitHeight,
                       ),
                     ),
                   ),
-                  SizedBox(height: 50), // Adicionado espaço extra
+                  const SizedBox(height: 50), // Adicionado espaço extra
                   Column(
                     children: <Widget>[
                       inputFile(
                           label: "Email", textController: emailController),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       inputFile(
                         label: "Senha",
                         obscureText: true,
@@ -106,15 +106,15 @@ class _SignPageState extends State<SignPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20), // Adicionado espaço extra
+                  const SizedBox(height: 20), // Adicionado espaço extra
                   Container(
                     width: 200, // Defina a largura desejada aqui
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
+                        begin: Alignment.centerRight,
+                        end: Alignment.centerLeft,
                       ),
                     ),
                     child: MaterialButton(
@@ -126,7 +126,7 @@ class _SignPageState extends State<SignPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Text(
+                      child: const Text(
                         "Login",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
@@ -136,11 +136,11 @@ class _SignPageState extends State<SignPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("Não tem uma conta?"),
+                      const Text("Não tem uma conta?"),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -149,7 +149,7 @@ class _SignPageState extends State<SignPage> {
                                 builder: (context) => SignupPage()),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           " Cadastre-se",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -179,22 +179,23 @@ Widget inputFile(
     children: <Widget>[
       Text(
         label,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w400,
           color: Colors.black87,
         ),
       ),
-      SizedBox(
+      const SizedBox(
         height: 5,
       ),
-      Container(
+      SizedBox(
         width: 300, // Defina a largura desejada aqui
         child: TextField(
           controller: textController,
           obscureText: obscureText,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30), // Bordas arredondadas
               borderSide: BorderSide(color: Colors.grey.shade400),
@@ -210,7 +211,7 @@ Widget inputFile(
           ),
         ),
       ),
-      SizedBox(height: 10),
+      const SizedBox(height: 10),
     ],
   );
 }

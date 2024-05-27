@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +17,7 @@ class HomePage extends StatelessWidget {
         automaticallyImplyLeading: false, // Remove o botão de voltar padrão
         title: Row(
           children: [
-            SizedBox(width: 80), // Adiciona um espaçamento à esquerda
+            const SizedBox(width: 80), // Adiciona um espaçamento à esquerda
             Image.asset(
               'assets/images/logo.png',
               fit: BoxFit.contain,
@@ -33,11 +35,11 @@ class HomePage extends StatelessWidget {
           StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (BuildContext context, AsyncSnapshot<User?> authSnapshot) {
-              if (authSnapshot.connectionState == ConnectionState.waiting) {
+              /*if (authSnapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
-              }
+              }*/
               if (authSnapshot.hasError) {
                 return Center(
                   child: Text('Erro: ${authSnapshot.error}'),
@@ -46,23 +48,23 @@ class HomePage extends StatelessWidget {
 
               final User? user = authSnapshot.data;
               if (user == null) {
-                return Center(
+                /*return Center(
                   child: Text('Nenhum usuário autenticado.'),
-                );
+                );*/
               }
 
               return StreamBuilder<DocumentSnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('users')
-                    .doc(user.uid)
+                    .doc(user?.uid)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<DocumentSnapshot> userSnapshot) {
-                  if (userSnapshot.connectionState == ConnectionState.waiting) {
+                  /* if (userSnapshot.connectionState == ConnectionState.waiting) {
                     return Center(
                       child: CircularProgressIndicator(),
-                    );
-                  }
+                    )
+                  }*/
                   if (userSnapshot.hasError) {
                     return Center(
                       child: Text('Erro: ${userSnapshot.error}'),
@@ -76,27 +78,27 @@ class HomePage extends StatelessWidget {
 
                     return Container(
                       height: MediaQuery.of(context).size.height * 0.1,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
+                          begin: Alignment.centerRight,
+                          end: Alignment.centerLeft,
                         ),
                       ),
                       child: Center(
                         child: Text('Bem vindo, $userName!',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 18,
                             )),
                       ),
                     );
                   }
 
-                  return Center(
-                    child: Text('Nome do usuário não encontrado.'),
-                  );
+                  return const Center(
+                      /*child: Text('Nome do usuário não encontrado.'),*/
+                      );
                 },
               );
             },
@@ -105,11 +107,11 @@ class HomePage extends StatelessWidget {
           StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (BuildContext context, AsyncSnapshot<User?> authSnapshot) {
-              if (authSnapshot.connectionState == ConnectionState.waiting) {
+              /*if (authSnapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
-              }
+              }*/
               if (authSnapshot.hasError) {
                 return Center(
                   child: Text('Erro: ${authSnapshot.error}'),
@@ -118,23 +120,23 @@ class HomePage extends StatelessWidget {
 
               final User? user = authSnapshot.data;
               if (user == null) {
-                return Center(
+                /*return Center(
                   child: Text('Nenhum usuário autenticado.'),
-                );
+                );*/
               }
 
               return StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('lancamentos')
-                    .where('uid', isEqualTo: user.uid)
+                    .where('uid', isEqualTo: user?.uid)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
+                  /*if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
-                  }
+                  }*/
                   if (snapshot.hasError) {
                     return Center(
                       child: Text('Erro: ${snapshot.error}'),
@@ -164,7 +166,7 @@ class HomePage extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0),
                         ),
-                        child: Container(
+                        child: SizedBox(
                           height: MediaQuery.of(context).size.height * 0.2,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -179,21 +181,21 @@ class HomePage extends StatelessWidget {
                                       : Colors.red,
                                 ),
                               ),
-                              SizedBox(height: 8.0),
+                              const SizedBox(height: 8.0),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Column(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.arrow_drop_up,
                                         color: Colors.green,
                                         size: 40,
                                       ),
                                       Text(
                                         'RECEITA: R\$ ${totalReceita.toStringAsFixed(2)}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.green,
                                         ),
                                       ),
@@ -201,14 +203,14 @@ class HomePage extends StatelessWidget {
                                   ),
                                   Column(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.arrow_drop_down,
                                         color: Colors.red,
                                         size: 40,
                                       ),
                                       Text(
                                         'DESPESA: R\$ ${totalDespesa.toStringAsFixed(2)}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.red,
                                         ),
                                       ),
@@ -222,9 +224,9 @@ class HomePage extends StatelessWidget {
                       ),
                     );
                   }
-                  return Center(
-                    child: Text('Nenhum lançamento encontrado.'),
-                  );
+                  return const Center(
+                      /*child: Text('Nenhum lançamento encontrado.'),*/
+                      );
                 },
               );
             },
@@ -235,12 +237,12 @@ class HomePage extends StatelessWidget {
 
           Container(
             height: MediaQuery.of(context).size.height * 0.07,
-            color: Color(0xFF3F8782),
+            color: const Color(0xFF3F8782),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  icon: Icon(Icons.chat),
+                  icon: const Icon(Icons.chat),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -250,7 +252,7 @@ class HomePage extends StatelessWidget {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -260,12 +262,12 @@ class HomePage extends StatelessWidget {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.account_circle),
+                  icon: const Icon(Icons.account_circle),
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => UserProfilePage()));
+                            builder: (context) => const UserProfilePage()));
                   },
                 ),
               ],

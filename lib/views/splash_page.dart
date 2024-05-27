@@ -3,7 +3,7 @@ import 'package:app_mm_v3/auth/signup.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
+  const SplashPage({super.key});
 
   @override
   SplashPageState createState() => SplashPageState();
@@ -97,8 +97,7 @@ class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
 
-  const CustomButton({required this.text, required this.onPressed, Key? key})
-      : super(key: key);
+  const CustomButton({required this.text, required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -107,10 +106,10 @@ class CustomButton extends StatelessWidget {
       height: 50, // Altura desejada para os botões
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          begin: Alignment.centerRight,
+          end: Alignment.centerLeft,
         ),
       ),
       child: ElevatedButton(
