@@ -1,3 +1,6 @@
+import 'package:app_mm_v3/src/add.dart';
+import 'package:app_mm_v3/src/app_widget.dart';
+import 'package:app_mm_v3/views/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -73,19 +76,30 @@ class UserProfilePage extends StatelessWidget {
                       IconButton(
                         icon: Icon(Icons.chat),
                         onPressed: () {
-                          // Implemente a ação do botão conforme necessário
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const AppWidget(),
+                              ));
                         },
                       ),
                       IconButton(
                         icon: Icon(Icons.add),
                         onPressed: () {
-                          // Implemente a ação do botão conforme necessário
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddTransactionPage(),
+                              ));
                         },
                       ),
                       IconButton(
                         icon: Icon(Icons.home),
                         onPressed: () {
-                          // Implemente a ação do botão conforme necessário
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
                         },
                       ),
                     ],

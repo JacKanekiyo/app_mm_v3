@@ -2,7 +2,7 @@ import 'package:app_mm_v3/views/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class AddTransactionPage extends StatelessWidget {
   @override
@@ -30,7 +30,7 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
   String? _description;
   String? _tipo;
 
-  List<String> _categories = [
+  final List<String> _categories = [
     'Alimentação',
     'Transporte',
     'Moradia',
@@ -41,6 +41,10 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
     'Salário',
     'Outros'
   ];
+
+  // Controlador e formatação para o campo de data
+  final TextEditingController _dateController = TextEditingController();
+  var _dateMaskFormatter = MaskTextInputFormatter(mask: '##/##/####', filter: {"#": RegExp(r'[0-9]')});
 
   // Referência para o Firestore
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -86,6 +90,11 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
                 if (value!.isEmpty) {
                   return 'Digite um valor';
                 }
+                try {
+                  double.parse(value);
+                } catch (e) {
+                  return 'Digite um valor válido';
+                }
                 return null;
               },
               onSaved: (value) {
@@ -93,27 +102,32 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
               },
             ),
             TextFormField(
+              controller: _dateController,
+              inputFormatters: [_dateMaskFormatter],
               decoration: InputDecoration(
-                labelText: 'Data (ddmmaaaa)',
+                labelText: 'Data (dd/mm/aaaa)',
               ),
+              keyboardType: TextInputType.number,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Digite uma data';
                 }
+                if (value.length != 10) {
+                  return 'Digite a data no formato correto';
+                }
                 return null;
               },
-              inputFormatters: [LengthLimitingTextInputFormatter(8)],
               onChanged: (value) {
                 setState(() {
                   _dateInput = value;
                 });
               },
               onSaved: (value) {
-                // Converte a string de data para DateTime
-                if (value != null && value.isNotEmpty && value.length == 8) {
-                  int day = int.parse(value.substring(0, 2));
-                  int month = int.parse(value.substring(2, 4));
-                  int year = int.parse(value.substring(4, 8));
+                if (value != null && value.isNotEmpty && value.length == 10) {
+                  List<String> parts = value.split('/');
+                  int day = int.parse(parts[0]);
+                  int month = int.parse(parts[1]);
+                  int year = int.parse(parts[2]);
                   _selectedDate = DateTime(year, month, day);
                 }
               },
@@ -163,7 +177,6 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
                 if (_formKey.currentState != null &&
                     _formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  // Chamando método para salvar o lançamento
                   _saveTransaction();
                 }
               },
@@ -175,24 +188,37 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
     );
   }
 
-  void _saveTransaction() {
-    // Salvando o lançamento no Firestore
-    _firestore.collection('lancamentos').add({
-      'categoria': _selectedCategory,
-      'valor': _amount,
-      'data': _selectedDate,
-      'descricao': _description,
-      'uid': FirebaseAuth.instance.currentUser!.uid,
-      'tipo': _tipo,
-    }).then((value) {
-      // Navegar para a página inicial após salvar o lançamento
-      Navigator.push(
+  void _saveTransaction() async {
+    try {
+      Map<String, dynamic> transactionData = {
+        'categoria': _selectedCategory,
+        'valor': _amount,
+        'descricao': _description,
+        'uid': FirebaseAuth.instance.currentUser!.uid,
+        'tipo': _tipo,
+      };
+
+      // Verifica se _selectedDate não é nulo antes de adicionar ao mapa
+      if (_selectedDate != null) {
+        transactionData['data'] = Timestamp.fromDate(_selectedDate!);
+      }
+
+      await _firestore.collection('lancamentos').add(transactionData);
+      
+      // Exibir mensagem de sucesso e navegar de volta para a HomePage
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Lançamento adicionado com sucesso')),
+      );
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
+        (route) => false,
       );
-    }).catchError((error) {
+    } catch (error) {
       // Tratar erro, se necessário
-      print("Erro ao salvar o lançamento: $error");
-    });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao salvar o lançamento: $error')),
+      );
+    }
   }
 }
