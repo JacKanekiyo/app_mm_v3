@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AddTransactionPage extends StatelessWidget {
+  const AddTransactionPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Adicionar Lançamento'),
+        title: const Text('Adicionar Lançamento'),
       ),
       body: AddTransactionForm(),
     );
@@ -17,6 +19,8 @@ class AddTransactionPage extends StatelessWidget {
 }
 
 class AddTransactionForm extends StatefulWidget {
+  const AddTransactionForm({super.key});
+
   @override
   _AddTransactionFormState createState() => _AddTransactionFormState();
 }
@@ -30,7 +34,7 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
   String? _description;
   String? _tipo;
 
-  List<String> _categories = [
+  final List<String> _categories = [
     'Alimentação',
     'Transporte',
     'Moradia',
@@ -48,7 +52,7 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(20.0),
       child: Form(
         key: _formKey,
         child: Column(
@@ -67,7 +71,7 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
                   _selectedCategory = newValue;
                 });
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Categoria',
               ),
               validator: (value) {
@@ -78,8 +82,9 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
               },
             ),
             TextFormField(
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(
                 labelText: 'Valor',
               ),
               validator: (value) {
@@ -93,7 +98,7 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
               },
             ),
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Data (ddmmaaaa)',
               ),
               validator: (value) {
@@ -119,7 +124,7 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
               },
             ),
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Descrição',
               ),
               validator: (value) {
@@ -139,25 +144,25 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
                   groupValue: _tipo,
                   onChanged: (value) {
                     setState(() {
-                      _tipo = value as String?;
+                      _tipo = value;
                     });
                   },
                 ),
-                Text('Receita'),
-                SizedBox(width: 20),
+                const Text('Receita'),
+                const SizedBox(width: 20),
                 Radio(
                   value: 'Despesa',
                   groupValue: _tipo,
                   onChanged: (value) {
                     setState(() {
-                      _tipo = value as String?;
+                      _tipo = value;
                     });
                   },
                 ),
-                Text('Despesa'),
+                const Text('Despesa'),
               ],
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState != null &&
@@ -167,7 +172,7 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
                   _saveTransaction();
                 }
               },
-              child: Text('Adicionar Lançamento'),
+              child: const Text('Adicionar Lançamento'),
             ),
           ],
         ),
