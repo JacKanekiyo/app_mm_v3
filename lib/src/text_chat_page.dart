@@ -210,44 +210,42 @@ class _TextChatPageState extends State<TextChatPage> {
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.07,
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomLeft,
-                      ),
-                    ),
+                    color: const Color(0xFF3F8782),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.home, color: Colors.white),
+                          icon: const Icon(Icons.home),
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                            );
                           },
                         ),
                         IconButton(
-                          icon: const Icon(Icons.add, color: Colors.white),
+                          icon: const Icon(Icons.add),
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddTransactionPage()));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const AddTransactionPage(),
+                              ),
+                            );
                           },
                         ),
                         IconButton(
-                          icon: const Icon(Icons.account_circle,
-                              color: Colors.white),
+                          icon: const Icon(Icons.account_circle),
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const UserProfilePage()));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const UserProfilePage(),
+                              ),
+                            );
                           },
                         ),
                       ],

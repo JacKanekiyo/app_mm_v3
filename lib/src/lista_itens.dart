@@ -37,63 +37,50 @@ class ListaItens extends StatelessWidget {
               return Center(child: Text('Erro: ${snapshot.error}'));
             }
             if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot document = snapshot.data!.docs[index];
-<<<<<<< HEAD
-                    Map<String, dynamic> data =
-                        document.data() as Map<String, dynamic>;
-                    IconData icon = data['tipo'] == 'Receita'
-                        ? Icons.arrow_drop_up
-                        : Icons.arrow_drop_down;
-                    Color iconColor =
-                        data['tipo'] == 'Receita' ? Colors.green : Colors.red;
-                    double valor = data['valor'].toDouble() *
-                        (data['tipo'] == 'Receita'
-                            ? 1
-                            : -1); // Ajusta o sinal do valor para negativo em caso de despesa
-=======
-                    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                    String categoria = data['categoria'] ?? 'Desconhecida';
-                    String? iconePath = categoriaIconeMap[categoria];
+              return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot document = snapshot.data!.docs[index];
+                  Map<String, dynamic> data =
+                      document.data() as Map<String, dynamic>;
+                  String categoria = data['categoria'] ?? 'Desconhecida';
+                  String? iconePath = categoriaIconeMap[categoria];
 
-                    double valor = data['valor'].toDouble() * (data['tipo'] == 'Receita' ? 1 : -1);
-                    
-                    DateTime? date;
-                    if (data['data'] != null) {
-                      date = (data['data'] as Timestamp).toDate();
-                    } else {
-                      date = DateTime.now(); // ou qualquer valor padrão que você queira atribuir
-                    }
-                    String formattedDate = DateFormat('dd/MM/yyyy').format(date!);
+                  double valor = data['valor'].toDouble() *
+                      (data['tipo'] == 'Receita' ? 1 : -1);
 
->>>>>>> fdaafb8abd62bd3af78e54b6cef18fd9109eb3d3
-                    return Card(
-                      child: ListTile(
-                        leading: iconePath != null
-                            ? Image.asset(
-                                iconePath,
-                                width: 40,
-                                height: 40,
-                              )
-                            : Icon(
-                                Icons.category,
-                              ),
-                        title: Text(categoria),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(data['descricao'] ?? ''),
-                            Text("Data: $formattedDate"),
-                          ],
-                        ),
-                        trailing: Text('R\$ ${valor.toStringAsFixed(2)}'),
+                  DateTime date = (data['data'] as Timestamp).toDate();
+                  String formattedDate = DateFormat('dd/MM/yyyy').format(date);
+
+                  return Card(
+                    child: ListTile(
+                      leading: iconePath != null
+                          ? Image.asset(
+                              iconePath,
+                              width: 40,
+                              height: 40,
+                            )
+                          : const Icon(
+                              Icons.category,
+                              size: 40,
+                            ),
+                      title: Text(categoria),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(data['descricao'] ?? ''),
+                          Text("Data: $formattedDate"),
+                        ],
                       ),
-                    );
-                  },
-                ),
+                      trailing: Text(
+                        'R\$ ${valor.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          color: valor >= 0 ? Colors.green : Colors.red,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               );
             }
             return const Center(child: Text('Nenhum lançamento encontrado.'));

@@ -48,7 +48,8 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
 
   // Controlador e formatação para o campo de data
   final TextEditingController _dateController = TextEditingController();
-  var _dateMaskFormatter = MaskTextInputFormatter(mask: '##/##/####', filter: {"#": RegExp(r'[0-9]')});
+  var _dateMaskFormatter = MaskTextInputFormatter(
+      mask: '##/##/####', filter: {"#": RegExp(r'[0-9]')});
 
   // Referência para o Firestore
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -107,15 +108,10 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
               },
             ),
             TextFormField(
-<<<<<<< HEAD
-              decoration: const InputDecoration(
-                labelText: 'Data (ddmmaaaa)',
-=======
               controller: _dateController,
               inputFormatters: [_dateMaskFormatter],
               decoration: InputDecoration(
                 labelText: 'Data (dd/mm/aaaa)',
->>>>>>> fdaafb8abd62bd3af78e54b6cef18fd9109eb3d3
               ),
               keyboardType: TextInputType.number,
               validator: (value) {
@@ -214,7 +210,7 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
       }
 
       await _firestore.collection('lancamentos').add(transactionData);
-      
+
       // Exibir mensagem de sucesso e navegar de volta para a HomePage
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Lançamento adicionado com sucesso')),

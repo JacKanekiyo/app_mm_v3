@@ -6,16 +6,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserProfilePage extends StatelessWidget {
-  const UserProfilePage({super.key});
+  const UserProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final User? user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60.0),
+        preferredSize:
+            const Size.fromHeight(50.0), // Ajuste conforme necessário
         child: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -30,175 +30,148 @@ class UserProfilePage extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color(0xFF734B9B), // Cor mais escura
-              const Color(0xFF3F8782)
-                  .withOpacity(0.5), // Cor mais clara com opacidade reduzida
-            ],
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-          ),
-        ),
-        child: Stack(
+      bottomNavigationBar: Container(
+        height: MediaQuery.of(context).size.height * 0.07,
+        color: const Color(0xFF3F8782),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            StreamBuilder<DocumentSnapshot>(
-              stream: user != null
-                  ? FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(user.uid)
-                      .snapshots()
-                  : null,
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Erro: ${snapshot.error}'),
-                  );
-                }
-
-                if (snapshot.hasData && snapshot.data!.exists) {
-                  final userData =
-                      snapshot.data!.data() as Map<String, dynamic>;
-                  final username = userData['username'] ?? '';
-                  final email = userData['email'] ?? '';
-
-                  return Column(
-                    children: [
-<<<<<<< HEAD
-                      const Spacer(
-                          flex:
-                              2), // Ajusta a altura para mover os elementos um pouco para cima
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundImage: NetworkImage(
-                            userData['profilePictureUrl'] ??
-                                'https://via.placeholder.com/150'),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        username,
-                        style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-=======
-                      IconButton(
-                        icon: Icon(Icons.chat),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const AppWidget(),
-                              ));
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AddTransactionPage(),
-                              ));
-                        },
->>>>>>> fdaafb8abd62bd3af78e54b6cef18fd9109eb3d3
-                      ),
-                      Text(
-                        email,
-                        style: const TextStyle(
-                            fontSize: 18, color: Colors.white70),
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {
-<<<<<<< HEAD
-                          // Implemente a ação de editar perfil
-=======
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
->>>>>>> fdaafb8abd62bd3af78e54b6cef18fd9109eb3d3
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: const Color(0xFF3F8782),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 32, vertical: 12),
-                        ),
-                        child: const Text('Editar Perfil'),
-                      ),
-                      const Spacer(
-                          flex: 3), // Ajusta a proporção de espaçamento
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF3F8782),
-                          // Remova ou ajuste a borderRadius para deixar a barra quadrada
-                          borderRadius: BorderRadius.zero,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.chat, color: Colors.white),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const AppWidget(),
-                                  ),
-                                );
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.add, color: Colors.white),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AddTransactionPage(),
-                                  ),
-                                );
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.home, color: Colors.white),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomePage(),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                }
-
-                return const Center(
-                  child: Text('Dados do usuário não encontrados.',
-                      style: TextStyle(color: Colors.white)),
+            IconButton(
+              icon: const Icon(Icons.chat),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AppWidget(),
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddTransactionPage(),
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.home),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  ),
                 );
               },
             ),
           ],
         ),
+      ),
+      body: Stack(
+        children: [
+          Image.asset(
+            'assets/images/fundoperfil.png',
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
+          ),
+          Positioned.fill(
+            top: 100.0,
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Container(
+                height: 0, // Ajuste a altura conforme necessário
+                child: StreamBuilder<DocumentSnapshot>(
+                  stream: user != null
+                      ? FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(user.uid)
+                          .snapshots()
+                      : null,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Erro: ${snapshot.error}'),
+                      );
+                    }
+
+                    if (snapshot.hasData && snapshot.data!.exists) {
+                      final userData =
+                          snapshot.data!.data() as Map<String, dynamic>;
+                      final username = userData['username'] ?? '';
+                      final email = userData['email'] ?? '';
+
+                      // Verifica se o nome do usuário não está vazio
+                      /*if (username != null && username.isNotEmpty)*/ {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundImage: NetworkImage(
+                                userData['profilePictureUrl'] ??
+                                    'https://via.placeholder.com/150',
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              username,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            const SizedBox(height: 10), // Aumenta o espaçamento
+                            Text(
+                              email,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey, // Alterado para cinza
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: () {
+                                // Implemente a ação de editar perfil
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: const Color(0xFF3F8782),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 32, vertical: 12),
+                              ),
+                              child: const Text('Editar Perfil'),
+                            ),
+                          ],
+                        );
+                      }
+                    }
+
+                    return const Center(
+                      child: Text('Dados do usuário não encontrados.',
+                          style: TextStyle(color: Colors.white)),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
