@@ -13,7 +13,7 @@ class AddTransactionPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Adicionar Lançamento'),
       ),
-      body: AddTransactionForm(),
+      body: const AddTransactionForm(),
     );
   }
 }
@@ -110,7 +110,7 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
             TextFormField(
               controller: _dateController,
               inputFormatters: [_dateMaskFormatter],
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Data (dd/mm/aaaa)',
               ),
               keyboardType: TextInputType.number,
@@ -178,15 +178,43 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
               ],
             ),
             const SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState != null &&
-                    _formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  _saveTransaction();
-                }
-              },
-              child: const Text('Adicionar Lançamento'),
+            Center(
+              child: Container(
+                width: 180, // Ajuste o tamanho do botão aqui
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
+                    begin: Alignment.centerRight,
+                    end: Alignment.centerLeft,
+                  ),
+                ),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState != null &&
+                        _formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      _saveTransaction();
+                    }
+                  },
+                  child: const Text(
+                    'Adicionar Lançamento',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -213,11 +241,11 @@ class _AddTransactionFormState extends State<AddTransactionForm> {
 
       // Exibir mensagem de sucesso e navegar de volta para a HomePage
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Lançamento adicionado com sucesso')),
+        const SnackBar(content: Text('Lançamento adicionado com sucesso')),
       );
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
         (route) => false,
       );
     } catch (error) {

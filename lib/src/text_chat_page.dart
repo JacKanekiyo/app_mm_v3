@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TextChatPage extends StatefulWidget {
-  const TextChatPage({super.key});
+  const TextChatPage({Key? key}) : super(key: key);
 
   @override
   State<TextChatPage> createState() => _TextChatPageState();
@@ -40,18 +40,17 @@ class _TextChatPageState extends State<TextChatPage> {
     final message = _messageController.text;
     if (message.isEmpty) return;
 
-    addMessage(message, true); // Adiciona a mensagem do usuário ao histórico
+    addMessage(message, true);
     _messageController.clear();
 
     setState(() {
       loading = true;
     });
 
-    // Passa todo o histórico de mensagens para o modelo
     final result = await geminiModel.generateContent(chatHistory);
 
     if (result.text != null) {
-      addMessage(result.text!, false); // Adiciona a resposta ao histórico
+      addMessage(result.text!, false);
     }
 
     setState(() {
@@ -64,25 +63,20 @@ class _TextChatPageState extends State<TextChatPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Imagem substituindo o AppBar
           Positioned(
             top: 0,
             left: 0,
             right: 0,
             child: Container(
-              height: MediaQuery.of(context).size.height *
-                  0.3, // Ajuste a altura conforme necessário
+              height: MediaQuery.of(context).size.height * 0.3,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                      "assets/images/retangulo.png"), // Substitua pelo caminho da sua imagem
+                  image: AssetImage("assets/images/retangulo.png"),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.only(
-                  bottomLeft:
-                      Radius.circular(0), // Arredonde o canto inferior esquerdo
-                  bottomRight:
-                      Radius.circular(0), // Arredonde o canto inferior direito
+                  bottomLeft: Radius.circular(0),
+                  bottomRight: Radius.circular(0),
                 ),
               ),
               child: const Column(
@@ -107,56 +101,50 @@ class _TextChatPageState extends State<TextChatPage> {
             ),
           ),
           Positioned.fill(
-            top: MediaQuery.of(context).size.height *
-                0.4, // Ajuste o preenchimento conforme necessário
+            top: MediaQuery.of(context).size.height * 0.4,
             child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                      "assets/images/chat_background."), // Substitua pelo caminho da sua imagem
-                  fit: BoxFit.cover,
-                ),
-              ),
+              decoration: const BoxDecoration(),
               child: Column(
                 children: [
                   Expanded(
                     child: ListView.builder(
-                      reverse:
-                          true, // Para exibir as mensagens de baixo para cima
+                      reverse: true,
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
                         final message = messages[index];
                         final isUserMessage = index % 2 == 0;
-                        return Align(
-                          alignment: isUserMessage
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 10),
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: isUserMessage
-                                  ? const Color(0xFF3F8782)
-                                  : const Color(0xFF734B9B),
-                              borderRadius: BorderRadius.circular(
-                                  20), // Arredondar todas as bordas
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 4,
-                                  offset: Offset(2, 2),
-                                ),
-                              ],
-                            ),
-                            child: Text(
-                              message,
-                              style: TextStyle(
+                        return Row(
+                          mainAxisAlignment: isUserMessage
+                              ? MainAxisAlignment.end
+                              : MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 10),
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: isUserMessage
+                                    ? const Color(0xFF3F8782)
+                                    : const Color(0xFF734B9B),
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 4,
+                                    offset: Offset(2, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                message,
+                                style: TextStyle(
                                   color: isUserMessage
                                       ? const Color.fromARGB(255, 255, 255, 255)
-                                      : Colors.white),
+                                      : Colors.white,
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         );
                       },
                     ),
@@ -173,14 +161,13 @@ class _TextChatPageState extends State<TextChatPage> {
                       children: [
                         Expanded(
                           child: SizedBox(
-                            height: 40, // Defina a altura desejada
+                            height: 40,
                             child: TextFormField(
                               controller: _messageController,
                               decoration: InputDecoration(
                                 hintText: 'Digite sua mensagem...',
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      20), // Arredonda todas as bordas
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                                 filled: true,
                                 fillColor: Colors.green.shade50,
