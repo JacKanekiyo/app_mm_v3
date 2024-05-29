@@ -73,7 +73,7 @@ class _TextChatPageState extends State<TextChatPage> {
               height: MediaQuery.of(context).size.height * 0.3, // Ajuste a altura conforme necessário
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/retangulo.png"), // Substitua pelo caminho da sua imagem
+                  image: AssetImage("assets/images/nav.png"), // Substitua pelo caminho da sua imagem
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.only(
@@ -84,22 +84,7 @@ class _TextChatPageState extends State<TextChatPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Seja Bem Vindo!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Fale com a MiMi',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white),
-                  )
+
                 ],
               ),
             ),
@@ -109,7 +94,7 @@ class _TextChatPageState extends State<TextChatPage> {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/chat_background.jpg"), // Substitua pelo caminho da sua imagem
+                  image: AssetImage("assets/images/chat_background.p"), // Substitua pelo caminho da sua imagem
                   fit: BoxFit.cover,
                 ),
               ),
@@ -124,24 +109,43 @@ class _TextChatPageState extends State<TextChatPage> {
                         final isUserMessage = index % 2 == 0;
                         return Align(
                           alignment: isUserMessage ? Alignment.centerRight : Alignment.centerLeft,
-                          child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                            padding: EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: isUserMessage ? Color(0xFF3F8782) : Color(0xFF734B9B),
-                              borderRadius: BorderRadius.circular(20), // Arredondar todas as bordas
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 4,
-                                  offset: Offset(2, 2),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              if (!isUserMessage) 
+                                CircleAvatar(
+                                  radius: 16,
+                                  backgroundImage: AssetImage("assets/images/icon2.png"), // Substitua pelo caminho da sua imagem
                                 ),
-                              ],
-                            ),
-                            child: Text(
-                              message,
-                              style: TextStyle(color: isUserMessage ? const Color.fromARGB(255, 255, 255, 255) : Colors.white),
-                            ),
+                              SizedBox(width: 8),
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: isUserMessage ? Color(0xFF3F8782) : Color(0xFF734B9B),
+                                  borderRadius: BorderRadius.circular(20), // Arredondar todas as bordas
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 4,
+                                      offset: Offset(2, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  message,
+                                  style: TextStyle(color: isUserMessage ? Colors.white : Colors.white),
+                                ),
+                              ),
+                              if (isUserMessage)
+                                SizedBox(width: 8),
+                              if (isUserMessage)
+                                CircleAvatar(
+                                  radius: 16,
+                                  backgroundImage: AssetImage("assets/images/user_avatar.png"), // Substitua pelo caminho da sua imagem
+                                ),
+                            ],
                           ),
                         );
                       },
@@ -152,7 +156,6 @@ class _TextChatPageState extends State<TextChatPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: CircularProgressIndicator(),
                     ),
-                  Divider(height: 1, color: Colors.grey),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -165,7 +168,7 @@ class _TextChatPageState extends State<TextChatPage> {
                               decoration: InputDecoration(
                                 hintText: 'Digite sua mensagem...',
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20), // Arredonda todas as bordas
+                                  borderRadius: BorderRadius.circular(10), // Arredonda todas as bordas
                                 ),
                                 filled: true,
                                 fillColor: Colors.green.shade50,
@@ -180,8 +183,8 @@ class _TextChatPageState extends State<TextChatPage> {
                             shape: BoxShape.circle,
                             gradient: LinearGradient(
                               colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomLeft,
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
                             ),
                           ),
                           child: FloatingActionButton(
@@ -199,8 +202,8 @@ class _TextChatPageState extends State<TextChatPage> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomLeft,
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                       ),
                     ),
                     child: Row(
@@ -221,7 +224,9 @@ class _TextChatPageState extends State<TextChatPage> {
                         IconButton(
                           icon: Icon(Icons.account_circle, color: Colors.white),
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage(
+                            
+                            )));
                           },
                         ),
                       ],
