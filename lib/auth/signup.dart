@@ -13,8 +13,10 @@ class SignupPage extends StatelessWidget {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
+  SignupPage({super.key});
+
   Future<bool> _criarUsuario() async {
-    bool _create = false;
+    bool create = false;
 
     try {
       await auth
@@ -26,13 +28,13 @@ class SignupPage extends StatelessWidget {
           "email": emailController.text,
           "uid": usuariocriado.user!.uid
         });
-        _create = true;
+        create = true;
       });
     } on FirebaseAuthException catch (e) {
-      print("Erro: " + e.code);
+      print("Erro: ${e.code}");
     }
 
-    return _create;
+    return create;
   }
 
   @override
@@ -105,10 +107,10 @@ class SignupPage extends StatelessWidget {
                 width: 200,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: [Color(0xFF734B9B), Color(0xFF3F8782)],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+                    begin: Alignment.centerRight,
+                    end: Alignment.centerLeft,
                   ),
                 ),
                 child: MaterialButton(
@@ -157,7 +159,7 @@ class SignupPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SignPage(),
+                          builder: (context) => const SignPage(),
                         ),
                       );
                     },

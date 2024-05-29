@@ -52,7 +52,9 @@ dependencies:
   firebase_core: ^2.31.0
   firebase_auth: ^4.19.5
   cloud_firestore: ^4.17.3
-
+  flutter_svg: ^2.0.10+1
+  mask_text_input_formatter: ^2.9.0
+  
 dev_dependencies:
   flutter:
     sdk: flutter
@@ -78,7 +80,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+<<<<<<< HEAD
    - assets/images/
+=======
+    - assets/images/
+    - assets/icones/
+>>>>>>> 0f8867f44b93fca4b18e3a2baf3a0e0e22265c8b
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
